@@ -1,6 +1,7 @@
 import HttpStatus from 'http-status-codes';
 import jwt from 'jsonwebtoken';
 
+
 /**
  * Middleware to authenticate if user has a valid Authorization token
  * Authorization: Bearer <token>
@@ -19,11 +20,14 @@ export const userAuth = async (req, res, next) => {
       };
     bearerToken = bearerToken.split(' ')[1];
 
-    const { user } = await jwt.verify(bearerToken, 'your-secret-key');
-    res.locals.user = user;
+    const decoded = jwt.verify(bearerToken, process.env.JWT_SECRET || 'your-secret-key');
+    
     res.locals.token = bearerToken;
+    res.locals.userID = decoded.userID;
     next();
   } catch (error) {
+    console.error('Authentication error:', error);
+    res.status(HttpStatus.UNAUTHORIZED).json({ message: 'Authentication failed' });
     next(error);
   }
 };
