@@ -1,0 +1,11 @@
+node_modules/
+package-lock.json
+yarn-error.log
+yarn.lock
+pnpm-lock.yaml
+.env
+.env.*
+coverage/
+dist/
+*.log
+*.tsbuildinfo
