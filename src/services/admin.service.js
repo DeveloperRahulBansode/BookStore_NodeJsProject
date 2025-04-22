@@ -1,4 +1,4 @@
-import { User } from '../models/user';
+import { Admin } from '../models/admin.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { generateToken } from '../utils/jwtToken.js';
@@ -26,33 +26,33 @@ import { result } from '@hapi/joi/lib/base.js';
 // };
 
 //create new user
-export const newUser = async (body) => {
+export const newAdmin = async (body) => {
   try {
     // Check if the email already exists
-    const existingUser = await User.findOne({ where: { email: body.email } });
-    if (existingUser) {
+    const existingAdmin = await Admin.findOne({ where: { email: body.email } });
+    if (existingAdmin) {
       return { success: false, message: 'Email already in use' };
     }
 
     const hashedPassword = await bcrypt.hash(body.password, 10);
 
-    const userData = {
+    const adminData = {
       fullName: body.fullName,
       email: body.email,
       password: hashedPassword,
       mobileNumber: body.mobileNumber,
     };
-    console.log('Creating user with data:', userData);
+    console.log('Creating admin with data:', adminData);
 
-    const data = await User.create(userData);
+    const data = await User.create(adminData);
 
     return {
       success: true,
-      message: 'User created successfully...',
+      message: 'admin created successfully...',
       user: data,
     };
   } catch (error) {
-    console.error('Error creating user:', error);
+    console.error('Error creating admin:', error);
     return { success: false, message: 'Something went wrong. Please try again.' };
   }
 };
@@ -72,7 +72,7 @@ export const newUser = async (body) => {
 //   return '';
 // };
 
-//get single user
+// //get single user
 // export const getUser = async (id) => {
 //   try {
 //     const data = await User.findByPk(id);
@@ -90,12 +90,12 @@ export const newUser = async (body) => {
 // };
 
 //user login 
-export const userLogin = async (body) => {
+export const adminLogin = async (body) => {
   try {
-    const data = await User.findOne({ where: { email: body.email } });
+    const data = await Admin.findOne({ where: { email: body.email } });
 
     if (!data) {
-      return { success: false, message: 'User not found' };
+      return { success: false, message: 'admin not found' };
     }
 
     const isMatch = await bcrypt.compare(body.password, data.password);
@@ -106,7 +106,7 @@ export const userLogin = async (body) => {
     return {
       success: true,
       email: data.email,
-      token: generateToken(data.userID),
+      token: generateToken(data.adminID),
     };
   } catch (error) {
     console.error('Login error:', error);
@@ -117,14 +117,14 @@ export const userLogin = async (body) => {
 
 
 //user forgot password
-export const userForgotPassword = async (email) => {
+export const adminForgotPassword = async (email) => {
   try {
-    const data = await User.findOne({ where: { email: email } });
+    const data = await Admin.findOne({ where: { email: email } });
     if (!data) {
-      return { success: false, message: 'User not found' };
+      return { success: false, message: 'admin not found' };
     }
 
-    const token = generateToken(data.userID);
+    const token = generateToken(data.adminID);
     const result = await sendResetEmail(data.email, `http://localhost:3000/reset-password.html?token=${token}`);
 
     if (result.success) {
@@ -144,14 +144,12 @@ export const userForgotPassword = async (email) => {
 
 
 
-export const userResetPassword = async (token, password, confirmPassword) => {
+export const adminResetPassword = async (token, password, confirmPassword) => {
   try {
-    // Check if passwords match
     if (password !== confirmPassword) {
       return { success: false, message: 'Passwords do not match' };
     }
 
-    // Decode the JWT token
     let decoded;
     try {
       decoded = jwt.verify(token, process.env.JWT_SECRET); // Decode token using your secret
@@ -161,8 +159,7 @@ export const userResetPassword = async (token, password, confirmPassword) => {
       return { success: false, message: 'Invalid or expired token' };
     }
 
-    // Find user by ID from the decoded token
-    const user = await User.findByPk(decoded.id); 
+    const user = await Admin.findByPk(decoded.id); 
     if (!user) {
       return { success: false, message: 'User not found' };
     }
@@ -170,7 +167,7 @@ export const userResetPassword = async (token, password, confirmPassword) => {
     const hashedPassword = await bcrypt.hash(password, 10); 
 
     user.password = hashedPassword;
-    await user.save();
+    await admin.save();
 
     return { success: true, message: 'Password reset successfully' };
   } catch (error) {

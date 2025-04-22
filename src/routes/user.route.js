@@ -22,6 +22,7 @@ router.get('/:id', userController.getUser);
 router.post('/forpass', userController.userForgotPassword);
 
 //route for reset password
-// router.post('/respass', userAuth, userController.userResetPassword);
+router.post('/respass',userController.userResetPassword);
 
 export default router;
+    

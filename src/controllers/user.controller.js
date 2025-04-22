@@ -1,5 +1,6 @@
 import HttpStatus from 'http-status-codes';
 import * as UserService from '../services/user.service';
+import { token } from 'morgan';
 
 /**
  * Controller to get all users available
@@ -133,36 +134,30 @@ export const userForgotPassword = async (req, res, next) => {
     next(error);
   }
 } 
+
+
 /**
  * Controller to handle user reset password
  * @param  {object} req - request object
  * @param {object} res - response object
  * @param {Function} next
  */
-// export const userResetPassword = async (req, res, next) => {
-//   try {
-//     // Check if the user is authenticated
-
-//     const {password, confirmPassword} = req.body;
-//     if (password !== confirmPassword) {
-//       return { success: false, message: 'Passwords do not match' };
-//     }
-//     const userID = res.locals.userID;
-    
-//     const data = await UserService.userResetPassword(userID, password, confirmPassword);
-//     if (!data.success) {
-//       return res.status(HttpStatus.BAD_REQUEST).json({
-//         code: HttpStatus.BAD_REQUEST,
-//         data: [],
-//         message: data.message
-//       });
-//     }
-//     res.status(HttpStatus.OK).json({
-//       code: HttpStatus.OK,
-//       data: data,
-//       message: 'User reset password successfully'
-//     });
-//   } catch (error) {
-//     next(error);
-//   }
-// }
+export const userResetPassword = async (req, res, next) => {
+  try {
+    const data = await UserService.userResetPassword(req.body.token, req.body.password, req.body.confirmPassword);
+    if (!data.success) {
+      return res.status(HttpStatus.BAD_REQUEST).json({
+        code: HttpStatus.BAD_REQUEST,
+        data: [],
+        message: data.message
+      });
+    }
+    res.status(HttpStatus.OK).json({
+      code: HttpStatus.OK,
+      data: data,
+      message: 'User reset password successfully'
+    });
+  } catch (error) {
+    next(error);
+  }
+}
