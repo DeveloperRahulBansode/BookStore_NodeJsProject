@@ -1,10 +1,8 @@
 import { Admin } from '../models/admin.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { generateToken } from '../utils/jwtToken.js';
+import { generateAdminToken } from '../utils/jwtToken.js';
 import { sendResetEmail } from '../helpers/mail.helper.js';
-import e from 'express';
-import { result } from '@hapi/joi/lib/base.js';
 
 // //get all users
 // export const getAllUsers = async () => {
@@ -44,7 +42,7 @@ export const newAdmin = async (body) => {
     };
     console.log('Creating admin with data:', adminData);
 
-    const data = await User.create(adminData);
+    const data = await Admin.create(adminData);
 
     return {
       success: true,
@@ -106,7 +104,7 @@ export const adminLogin = async (body) => {
     return {
       success: true,
       email: data.email,
-      token: generateToken(data.adminID),
+      token: generateAdminToken(data.adminID),
     };
   } catch (error) {
     console.error('Login error:', error);
@@ -124,7 +122,7 @@ export const adminForgotPassword = async (email) => {
       return { success: false, message: 'admin not found' };
     }
 
-    const token = generateToken(data.adminID);
+    const token = generateAdminToken(data.adminID);
     const result = await sendResetEmail(data.email, `http://localhost:3000/reset-password.html?token=${token}`);
 
     if (result.success) {
@@ -152,7 +150,7 @@ export const adminResetPassword = async (token, password, confirmPassword) => {
 
     let decoded;
     try {
-      decoded = jwt.verify(token, process.env.JWT_SECRET); // Decode token using your secret
+      decoded = jwt.verify(token, process.env.ADMIN_JWT_SECRET); // Decode token using your secret
       console.log('Decoded token:', decoded);
     } catch (error) {
       console.error('Token verification failed:', error);
@@ -167,7 +165,7 @@ export const adminResetPassword = async (token, password, confirmPassword) => {
     const hashedPassword = await bcrypt.hash(password, 10); 
 
     user.password = hashedPassword;
-    await admin.save();
+    await user.save();
 
     return { success: true, message: 'Password reset successfully' };
   } catch (error) {

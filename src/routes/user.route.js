@@ -6,8 +6,8 @@ import { checkRole } from '../middlewares/role';
 
 const router = express.Router();
 
-//route to get all users
-router.get('', userController.getAllUsers);
+// //route to get all users
+// router.get('', userController.getAllUsers);
 
 //route to create a new user
 router.post('/reg', newUserValidator, userController.newUser);
@@ -15,14 +15,14 @@ router.post('/reg', newUserValidator, userController.newUser);
 //route to login a user
 router.post('/login', userController.userLogin);
 
-//route to get a single user
-router.get('/:id', userController.getUser);
+// //route to get a single user
+// router.get('/:id', userController.getUser);
 
 //route for forgot password
-router.post('/forpass', userController.userForgotPassword);
+router.post('/forget', userController.userForgotPassword);
 
 //route for reset password
-router.post('/respass',userController.userResetPassword);
+router.post('/reset',userController.userResetPassword);
 
 export default router;
     

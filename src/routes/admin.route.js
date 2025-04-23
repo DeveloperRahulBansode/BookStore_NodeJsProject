@@ -1,5 +1,5 @@
 import express from 'express';
-import * as adminController from '../controllers/admin.controller';
+import * as adminController from '../controllers/admin.controller.js';
 import { newAdminValidator } from '../validators/admin.validator';
 import { userAuth } from '../middlewares/auth.middleware';
 import { checkRole } from '../middlewares/role';
@@ -19,10 +19,10 @@ router.post('/admlogin', adminController.adminLogin);
 // router.get('/:id', userController.getUser);
 
 //route for forgot password
-router.post('/admforpass', adminController.adminForgotPassword);
+router.post('/admforget', adminController.adminForgotPassword);
 
 //route for reset password
-router.post('/admrespass',adminController.adminResetPassword);
+router.post('/admreset',adminController.adminResetPassword);
 
 export default router;
     

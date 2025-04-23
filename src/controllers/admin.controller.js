@@ -1,6 +1,5 @@
 import HttpStatus from 'http-status-codes';
 import * as AdminService from '../services/admin.service';
-import { token } from 'morgan';
 
 // /**
 //  * Controller to get all users available

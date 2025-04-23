@@ -1,6 +1,6 @@
 import Joi from '@hapi/joi';
 
-export const newUserValidator = (req, res, next) => {
+export const newAdminValidator = (req, res, next) => {
   const schema = Joi.object({
     adminID: Joi.number().integer(),
     fullName: Joi.string().min(3).required(),

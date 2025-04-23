@@ -21,7 +21,8 @@ $(document).ready(function () {
   
       // Send the request with the token and new password
       $.ajax({
-        url: 'http://localhost:3000/api/v1/users/respass',  
+        // url: 'http://localhost:3000/api/v1/users/reset', 
+        url:'http://localhost:3000/api/v1/admin/admreset',
         method: 'POST',
         contentType: 'application/json',
         data: JSON.stringify({ token, password: newPassword, confirmPassword: confirmPassword }),

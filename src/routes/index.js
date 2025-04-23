@@ -1,8 +1,9 @@
 import express from 'express';
 const router = express.Router();
 
-import userRoute from './admin.route.js';
-import adminRoute from './user.route.js';
+import adminRoute from './admin.route.js';
+import userRoute from './user.route.js';
+
 /**
  * Function contains Application routes
  *

@@ -3,8 +3,6 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { generateToken } from '../utils/jwtToken.js';
 import { sendResetEmail } from '../helpers/mail.helper.js';
-import e from 'express';
-import { result } from '@hapi/joi/lib/base.js';
 
 // //get all users
 // export const getAllUsers = async () => {
