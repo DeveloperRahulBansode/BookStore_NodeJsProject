@@ -104,7 +104,7 @@ export const userLogin = async (body) => {
     return {
       success: true,
       email: data.email,
-      token: generateToken(data.userID),
+      token: generateToken(data.userID, data.role),
     };
   } catch (error) {
     console.error('Login error:', error);
@@ -122,7 +122,7 @@ export const userForgotPassword = async (email) => {
       return { success: false, message: 'User not found' };
     }
 
-    const token = generateToken(data.userID);
+    const token = generateToken(data.userID, data.role);
     const result = await sendResetEmail(data.email, `http://localhost:3000/reset-password.html?token=${token}`);
 
     if (result.success) {

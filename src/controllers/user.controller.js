@@ -61,6 +61,7 @@ import * as UserService from '../services/user.service';
  */
 export const newUser = async (req, res, next) => {
   try {
+    req.body.role = 'user';
     const data = await UserService.newUser(req.body);
     if (!data.success) {
       return res.status(HttpStatus.BAD_REQUEST).json({

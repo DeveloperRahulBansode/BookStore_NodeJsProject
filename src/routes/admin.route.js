@@ -10,19 +10,19 @@ const router = express.Router();
 // router.get('', userController.getAllUsers);
 
 //route to create a new user
-router.post('/admreg', newAdminValidator, adminController.newAdmin);
+router.post('', newAdminValidator, adminController.newAdmin);
 
 //route to login a user
-router.post('/admlogin', adminController.adminLogin);
+router.post('/login', adminController.adminLogin);
 
 // //route to get a single user
 // router.get('/:id', userController.getUser);
 
 //route for forgot password
-router.post('/admforget', adminController.adminForgotPassword);
+router.post('/forget', adminController.adminForgotPassword);
 
 //route for reset password
-router.post('/admreset',adminController.adminResetPassword);
+router.post('/reset',adminController.adminResetPassword);
 
 export default router;
     

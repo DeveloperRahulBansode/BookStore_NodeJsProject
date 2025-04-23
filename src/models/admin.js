@@ -33,6 +33,14 @@ const Admin = sequelize.define('Admin', {
       isNumeric: true
     }
   },
+  role: {
+    type: DataTypes.STRING,
+    defaultValue: 'admin',
+    allowNull: false,
+    validate: {
+      isIn: [['admin']]
+    }
+  },
 }, {
   tableName: 'Admins',
   timestamps: true // adds createdAt and updatedAt

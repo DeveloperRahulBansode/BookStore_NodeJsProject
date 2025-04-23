@@ -104,7 +104,7 @@ export const adminLogin = async (body) => {
     return {
       success: true,
       email: data.email,
-      token: generateAdminToken(data.adminID),
+      token: generateAdminToken(data.adminID,data.role),
     };
   } catch (error) {
     console.error('Login error:', error);
@@ -122,7 +122,7 @@ export const adminForgotPassword = async (email) => {
       return { success: false, message: 'admin not found' };
     }
 
-    const token = generateAdminToken(data.adminID);
+    const token = generateAdminToken(data.adminID,data.role);
     const result = await sendResetEmail(data.email, `http://localhost:3000/reset-password.html?token=${token}`);
 
     if (result.success) {

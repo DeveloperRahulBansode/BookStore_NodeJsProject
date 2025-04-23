@@ -34,6 +34,14 @@ const User = sequelize.define('User', {
       isNumeric: true
     }
   },
+  role: {
+    type: DataTypes.STRING,
+    defaultValue: 'user',
+    allowNull: false,
+    validate: {
+      isIn: [['user']]
+    }
+  },
 }, {
   tableName: 'Users',
   timestamps: true // adds createdAt and updatedAt

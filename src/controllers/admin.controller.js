@@ -61,6 +61,7 @@ import * as AdminService from '../services/admin.service';
  */
 export const newAdmin = async (req, res, next) => {
   try {
+    req.body.role = 'admin';
     const data = await AdminService.newAdmin(req.body);
     if (!data.success) {
       return res.status(HttpStatus.BAD_REQUEST).json({
