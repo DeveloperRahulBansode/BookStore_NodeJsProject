@@ -22,10 +22,10 @@ router.post('/login', adminController.adminLogin);
 router.post('/token/refresh', adminController.refreshToken);
 
 //route for forgot password
-router.post('/forget', adminController.adminForgotPassword);
+router.post('/forget', newAdminValidator, adminController.adminForgotPassword);
 
 //route for reset password
-router.post('/reset',adminController.adminResetPassword);
+router.post('/reset', newAdminValidator, adminController.adminResetPassword);
 
 export default router;
     

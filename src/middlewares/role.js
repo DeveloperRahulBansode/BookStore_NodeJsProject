@@ -1,10 +1,16 @@
-export const checkRole = (role) => {
-    return (req, res, next) => {
-      if (!res.locals.user || res.locals.user.role !== role) {
-        return res.status(403).json({ message: 'Forbidden: Insufficient permissions' });
-      }
-  
-      next();
-    };
+
+import HttpStatus from 'http-status-codes';
+
+/**
+ * Middleware to check if the user has one of the required roles.
+ * @param {Array} roles - List of roles that are allowed to access the resource.
+ */
+export const hasRole = (roles) => {
+  return (req, res, next) => {
+    if (!roles.includes(res.locals.role)) {
+      return res.status(HttpStatus.FORBIDDEN).json({ message: 'Access denied.' });
+    }
+    console.log("role in role middleware",roles );
+    next();
   };
-  
+};
