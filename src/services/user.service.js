@@ -1,7 +1,8 @@
 import { User } from '../models/user';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { generateToken } from '../utils/jwtToken.js';
+import { generateTokens } from '../utils/jwtToken.js';
+
 import { sendResetEmail } from '../helpers/mail.helper.js';
 
 // //get all users
@@ -87,28 +88,84 @@ export const newUser = async (body) => {
 //   }
 // };
 
-//user login 
+
+//user login
 export const userLogin = async (body) => {
   try {
-    const data = await User.findOne({ where: { email: body.email } });
+    // Validate input
+    if (!body.email || !body.password) {
+      return { success: false, message: 'Email and password are required' };
+    }
 
+    // Find user by email
+    const data = await User.findOne({ where: { email: body.email } });
     if (!data) {
       return { success: false, message: 'User not found' };
     }
 
-    const isMatch = await bcrypt.compare(body.password, data.password);
+    // Check if password exists
+    if (!data.password) {
+      return { success: false, message: 'Invalid credentials' };
+    }
 
+    // Compare passwords
+    const isMatch = await bcrypt.compare(body.password, data.password);
     if (!isMatch) {
       return { success: false, message: 'Invalid credentials' };
     }
+
+    // Generate tokens
+    let accessToken, refreshToken;
+    try {
+      ({ accessToken, refreshToken } = generateTokens({
+        id: data.userID,
+        role: data.role || 'user',
+      }));
+    } catch (tokenError) {
+      console.error('Token generation error:', tokenError.message);
+      return { success: false, message: 'Failed to generate tokens' };
+    }
+
+    // Return success response
     return {
       success: true,
       email: data.email,
-      token: generateToken(data.userID, data.role),
+      role: data.role,
+      userID: data.userID,
+      accessToken,
+      refreshToken,
     };
   } catch (error) {
-    console.error('Login error:', error);
+    console.error('Login error:', error.message);
     return { success: false, message: 'Something went wrong. Please try again.' };
+  }
+};
+
+//user refresh token
+export const userRefreshToken = async (token) => {
+  try {
+    // Verify the refresh token
+    const decoded = jwt.verify(token, process.env.REFRESH_SECRET_USER);
+    const { id } = decoded;
+    
+    // Check if the user exists
+    const user = await User.findByPk(id);
+    if (!user) {
+      return { success: false, message: 'User not found' };
+    }
+
+    // Generate new tokens (access & refresh)
+    const { accessToken, refreshToken: newRefreshToken } = generateTokens({ id, role: user.role });
+
+    // Send new tokens back
+    return {
+      success: true,
+      accessToken,
+      refreshToken: newRefreshToken,
+    };
+  } catch (error) {
+    console.error('Refresh token error:', error);
+    return { success: false, message: 'Invalid refresh token' };
   }
 };
 
@@ -122,15 +179,14 @@ export const userForgotPassword = async (email) => {
       return { success: false, message: 'User not found' };
     }
 
-    const token = generateToken(data.userID, data.role);
-    const result = await sendResetEmail(data.email, `http://localhost:3000/reset-password.html?token=${token}`);
+    const { accessToken } = generateTokens({ id: data.userID, role:data.role });
+    const result = await sendResetEmail(data.email, `http://localhost:3000/reset-password.html?token=${accessToken}`);
 
     if (result.success) {
       return {
         success: true,
-        message: `Password reset link sent to your email: https://example.com/reset-password?token=${token}`,
+        message: `Password reset link sent to your email: http://localhost:3000/reset-password.html?token=${accessToken}`,
         email: data.email,
-        token: token,
       };
     }
     return { success: false, message: 'Failed to send password reset link.' };
@@ -152,7 +208,7 @@ export const userResetPassword = async (token, password, confirmPassword) => {
     // Decode the JWT token
     let decoded;
     try {
-      decoded = jwt.verify(token, process.env.JWT_SECRET); // Decode token using your secret
+      decoded = jwt.verify(token, process.env.ACCESS_SECRET_USER); // Decode token using your secret
       console.log('Decoded token:', decoded);
     } catch (error) {
       console.error('Token verification failed:', error);
@@ -176,5 +232,3 @@ export const userResetPassword = async (token, password, confirmPassword) => {
     return { success: false, message: 'Something went wrong. Please try again.' };
   }
 };
-
-

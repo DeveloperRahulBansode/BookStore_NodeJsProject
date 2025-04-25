@@ -18,6 +18,9 @@ router.post('/login', adminController.adminLogin);
 // //route to get a single user
 // router.get('/:id', userController.getUser);
 
+//refresh token
+router.post('/token/refresh', adminController.refreshToken);
+
 //route for forgot password
 router.post('/forget', adminController.adminForgotPassword);
 

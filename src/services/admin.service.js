@@ -1,7 +1,7 @@
 import { Admin } from '../models/admin.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { generateAdminToken } from '../utils/jwtToken.js';
+import { generateTokens } from '../utils/jwtToken.js';
 import { sendResetEmail } from '../helpers/mail.helper.js';
 
 // //get all users
@@ -87,28 +87,79 @@ export const newAdmin = async (body) => {
 //   }
 // };
 
-//user login 
+//user login
 export const adminLogin = async (body) => {
   try {
-    const data = await Admin.findOne({ where: { email: body.email } });
-
-    if (!data) {
-      return { success: false, message: 'admin not found' };
+    // Validate input
+    if (!body.email || !body.password) {
+      return { success: false, message: 'Email and password are required' };
     }
 
-    const isMatch = await bcrypt.compare(body.password, data.password);
+    // Find user by email
+    const data = await Admin.findOne({ where: { email: body.email } });
+    if (!data) {
+      return { success: false, message: 'User not found' };
+    }
 
+    // Check if password exists
+    if (!data.password) {
+      return { success: false, message: 'Invalid credentials' };
+    }
+
+    // Compare passwords
+    const isMatch = await bcrypt.compare(body.password, data.password);
     if (!isMatch) {
       return { success: false, message: 'Invalid credentials' };
     }
+
+    // Generate tokens
+    let accessToken, refreshToken;
+    try {
+      ({ accessToken, refreshToken } = generateTokens({
+        id: data.adminID,
+        role: data.role || 'admin',
+      }));
+    } catch (tokenError) {
+      console.error('Token generation error:', tokenError.message);
+      return { success: false, message: 'Failed to generate tokens' };
+    }
+
+    // Return success response
     return {
       success: true,
       email: data.email,
-      token: generateAdminToken(data.adminID,data.role),
+      accessToken,
+      refreshToken,
     };
   } catch (error) {
-    console.error('Login error:', error);
+    console.error('Login error:', error.message);
     return { success: false, message: 'Something went wrong. Please try again.' };
+  }
+};
+
+//user refresh token
+export const adminRefreshToken = async (token) => {
+  try {
+    const decoded = jwt.verify(token, process.env.REFRESH_SECRET_ADMIN);
+    const { id } = decoded;
+    
+    // Check if the user exists
+    const user = await Admin.findByPk(id);
+    if (!user) {
+      return { success: false, message: 'User not found' };
+    }
+
+    const { accessToken, refreshToken: newRefreshToken } = generateTokens({ id, role: user.role });
+
+    // Send new tokens back
+    return {
+      success: true,
+      accessToken,
+      refreshToken: newRefreshToken,
+    };
+  } catch (error) {
+    console.error('Refresh token error:', error);
+    return { success: false, message: 'Invalid refresh token' };
   }
 };
 
@@ -119,18 +170,17 @@ export const adminForgotPassword = async (email) => {
   try {
     const data = await Admin.findOne({ where: { email: email } });
     if (!data) {
-      return { success: false, message: 'admin not found' };
+      return { success: false, message: 'User not found' };
     }
 
-    const token = generateAdminToken(data.adminID,data.role);
-    const result = await sendResetEmail(data.email, `http://localhost:3000/reset-password.html?token=${token}`);
+    const { accessToken } = generateTokens({ id: data.adminID, role:data.role });
+    const result = await sendResetEmail(data.email, `http://localhost:3000/reset-password.html?token=${accessToken}`);
 
     if (result.success) {
       return {
         success: true,
-        message: `Password reset link sent to your email: https://example.com/reset-password?token=${token}`,
+        message: `Password reset link sent to your email: http://localhost:3000/reset-password.html?token=${accessToken}`,
         email: data.email,
-        token: token,
       };
     }
     return { success: false, message: 'Failed to send password reset link.' };
@@ -144,19 +194,23 @@ export const adminForgotPassword = async (email) => {
 
 export const adminResetPassword = async (token, password, confirmPassword) => {
   try {
+    // Check if passwords match
     if (password !== confirmPassword) {
       return { success: false, message: 'Passwords do not match' };
     }
 
+    // Decode the JWT token
     let decoded;
     try {
-      decoded = jwt.verify(token, process.env.ADMIN_JWT_SECRET); // Decode token using your secret
-      console.log('Decoded token:', decoded);
+
+      decoded = jwt.verify(token, process.env.ACCESS_SECRET_ADMIN); 
+      console.log('Decoded token:', decoded); 
     } catch (error) {
       console.error('Token verification failed:', error);
       return { success: false, message: 'Invalid or expired token' };
     }
 
+    // Find user by ID from the decoded token
     const user = await Admin.findByPk(decoded.id); 
     if (!user) {
       return { success: false, message: 'User not found' };
@@ -173,5 +227,6 @@ export const adminResetPassword = async (token, password, confirmPassword) => {
     return { success: false, message: 'Something went wrong. Please try again.' };
   }
 };
+
 
 

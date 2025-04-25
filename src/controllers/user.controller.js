@@ -1,5 +1,6 @@
 import HttpStatus from 'http-status-codes';
 import * as UserService from '../services/user.service';
+import { generateTokens, verifyRefreshToken } from '../utils/jwtToken';
 
 // /**
 //  * Controller to get all users available
@@ -80,6 +81,34 @@ export const newUser = async (req, res, next) => {
   }
 };
 
+//refresh token
+export const refreshToken = async (req, res, next) => {
+  try {   
+    // Call the service to refresh the token
+    const userData = await UserService.userRefreshToken(req.body.refreshToken);
+
+    // Check if the service returned success
+    if (!userData.success) {
+      return res.status(HttpStatus.UNAUTHORIZED).json({
+        code: HttpStatus.UNAUTHORIZED,
+        data: [],
+        message: userData.message || 'Invalid refresh token',
+      });
+    }
+
+    // Return the new tokens
+    res.status(HttpStatus.OK).json({
+      code: HttpStatus.OK,
+      data: {
+        accessToken: userData.accessToken,
+        refreshToken: userData.refreshToken,
+      },
+      message: 'Tokens generated successfully',
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 
 
 /**

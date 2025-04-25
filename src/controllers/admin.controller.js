@@ -108,6 +108,35 @@ export const adminLogin = async (req, res, next) => {
   }
 }
 
+//refresh token
+export const refreshToken = async (req, res, next) => {
+  try {   
+    // Call the service to refresh the token
+    const userData = await AdminService.adminRefreshToken(req.body.refreshToken);
+
+    // Check if the service returned success
+    if (!userData.success) {
+      return res.status(HttpStatus.UNAUTHORIZED).json({
+        code: HttpStatus.UNAUTHORIZED,
+        data: [],
+        message: userData.message || 'Invalid refresh token',
+      });
+    }
+
+    // Return the new tokens
+    res.status(HttpStatus.OK).json({
+      code: HttpStatus.OK,
+      data: {
+        accessToken: userData.accessToken,
+        refreshToken: userData.refreshToken,
+      },
+      message: 'Tokens generated successfully',
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 
 /**
  * Controller to handle user forgot password

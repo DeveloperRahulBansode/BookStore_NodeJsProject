@@ -18,6 +18,10 @@ router.post('/login', userController.userLogin);
 // //route to get a single user
 // router.get('/:id', userController.getUser);
 
+//refresh token
+router.post('/token/refresh', userController.refreshToken);
+
+
 //route for forgot password
 router.post('/forget', userController.userForgotPassword);
 

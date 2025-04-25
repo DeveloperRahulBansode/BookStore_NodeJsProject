@@ -1,3 +1,4 @@
+
 $(document).ready(function () {
     $('#resetForm').submit(function (e) {
       e.preventDefault();
@@ -18,11 +19,12 @@ $(document).ready(function () {
         messageDiv.text("Passwords do not match.").css("color", "red");
         return;
       }
-  
-      // Send the request with the token and new password
+ 
+    let apiUrl;
+   // apiUrl = 'http://localhost:3000/api/v1/admin/reset';
+      apiUrl = 'http://localhost:3000/api/v1/users/reset';
       $.ajax({
-        // url: 'http://localhost:3000/api/v1/users/reset', 
-        url:'http://localhost:3000/api/v1/admin/reset',
+        url: `${apiUrl}`,
         method: 'POST',
         contentType: 'application/json',
         data: JSON.stringify({ token, password: newPassword, confirmPassword: confirmPassword }),
