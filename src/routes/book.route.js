@@ -20,6 +20,6 @@ router.put('/:bookID', userAuth, hasRole(['admin']), newbookValidator, bookContr
 router.delete('/:bookID', userAuth, hasRole(['admin']), bookController.deleteBook);
 
 //route to get a single book
-router.get('/:bookID', userAuth, hasRole(['admin']), newbookValidator, bookController.getBook);
+router.get('/:bookID', userAuth, hasRole(['admin']), bookController.getBook);
 
 export default router;

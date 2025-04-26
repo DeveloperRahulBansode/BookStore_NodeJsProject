@@ -4,8 +4,9 @@ import sequelize from '../config/database.js';
 
 const Book = sequelize.define('Books', {
   bookID: {
-    type: DataTypes.TEXT,
+    type: DataTypes.INTEGER,
     primaryKey: true,
+    autoIncrement: true,
   },
   description: {
     type: DataTypes.TEXT,
@@ -25,10 +26,6 @@ const Book = sequelize.define('Books', {
     validate: {
       isUrl: true
     }
-  },
-  admin_user_id: {
-    type: DataTypes.TEXT,
-    allowNull: false,
   },
   bookName: {
     type: DataTypes.TEXT,
