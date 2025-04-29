@@ -7,10 +7,14 @@ import HttpStatus from 'http-status-codes';
  */
 export const hasRole = (roles) => {
   return (req, res, next) => {
+    console.log("Roles allowed for this route:", roles);  // Log allowed roles
+    console.log("Role in role middleware:", res.locals.role);  // Log role of the user
+
     if (!roles.includes(res.locals.role)) {
       return res.status(HttpStatus.FORBIDDEN).json({ message: 'Access denied.' });
     }
-    console.log("role in role middleware",roles );
     next();
   };
 };
+
+

@@ -16,7 +16,7 @@ const routes = () => {
   });
 
   router.use('/users', userRoute);
-  router.use('/admin', adminRoute);
+  router.use('/admins', adminRoute);
   router.use('/books', bookRoute);
 
   return router;

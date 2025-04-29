@@ -47,7 +47,4 @@ const User = sequelize.define('User', {
   timestamps: true // adds createdAt and updatedAt
 });
 
-export {User};
-
-
-
+export { User };

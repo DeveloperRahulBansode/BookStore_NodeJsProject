@@ -46,7 +46,4 @@ const Admin = sequelize.define('Admin', {
   timestamps: true // adds createdAt and updatedAt
 });
 
-export {Admin};
-
-
-
+export { Admin };
