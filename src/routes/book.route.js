@@ -7,11 +7,27 @@ import { hasRole } from '../middlewares/role.js';
 const router = express.Router();
 
 // //route to get all books
-router.get('', bookController.getAllBooks);
+router.get('', userAuth, hasRole(['admin', 'user']), bookController.getAllBooks);
 
 //route to create a new book
 
-router.post('/create', userAuth, hasRole(['admin']), newbookValidator, bookController.createBook);
+router.post('', userAuth, hasRole(['admin']), newbookValidator, bookController.createBook);
+
+
+// Route to search books by title
+router.get('/search/title', userAuth, hasRole(['admin', 'user']), bookController.searchBooksByTitle);
+
+// Route to search books by author
+router.get('/search/author', userAuth, hasRole(['admin', 'user']), bookController.searchBooksByAuthor);
+
+// Route to search books by date
+router.get('/search/createdAt', userAuth, hasRole(['admin', 'user']), bookController.searchBooksByDate);
+
+// Route to sort books by price
+router.get('/sort/price', userAuth, hasRole(['admin', 'user']), bookController.sortBooksByPrice);
+
+
+
 
 //route to update a book
 router.put('/:bookID', userAuth, hasRole(['admin']), newbookValidator, bookController.updateBook);
@@ -20,6 +36,10 @@ router.put('/:bookID', userAuth, hasRole(['admin']), newbookValidator, bookContr
 router.delete('/:bookID', userAuth, hasRole(['admin']), bookController.deleteBook);
 
 //route to get a single book
-router.get('/:bookID', userAuth, hasRole(['admin']), bookController.getBook);
+router.get('/:bookID', userAuth, hasRole(['admin', 'user']), bookController.getBook);
+
+
+
+
 
 export default router;
