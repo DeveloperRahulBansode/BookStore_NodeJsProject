@@ -24,4 +24,28 @@ export const addBookToCart = async (req, res, next) => {
       next(error);
     }
   };
+
+  //get cart items
+export const getCartItems = async (req, res, next) => {
+    try {
+      const userID = res.locals.user.id; 
+      const data = await CartService.getCartItems(userID);
+  
+      if (!data.success) {
+        return res.status(HttpStatus.BAD_REQUEST).json({
+          code: HttpStatus.BAD_REQUEST,
+          data: [],
+          message: data.message || 'Failed to fetch cart items',
+        });
+      }
+      res.status(HttpStatus.OK).json({
+        code: HttpStatus.OK,
+        data: data.data,
+        message: 'Cart items fetched successfully',
+      });
+    } catch (error) {
+      console.error('Error in getCartItems controller:', error.message, error.stack);
+      next(error);
+    }
+  };
   

@@ -39,3 +39,24 @@ export const addBookToCart = async (userID, bookID) => {
     return { success: false, message: 'An error occurred while adding the book to the cart' };
   }
 };
+
+export const getCartItems = async (userID) => {
+  try {
+    // Validate input
+    if (!userID) {
+      return { success: false, message: 'Invalid userID' };
+    }
+
+    // Fetch cart items for the user
+    const cartItems = await Cart.findAll({
+      where: { userID },
+      include: [{ model: Book }], // Include book details
+    });
+
+    return { success: true, data: cartItems };
+  } catch (error) {
+    console.error('Error fetching cart items:', error.message, error.stack);
+    return { success: false, message: 'An error occurred while fetching cart items' };
+  }
+};
+
