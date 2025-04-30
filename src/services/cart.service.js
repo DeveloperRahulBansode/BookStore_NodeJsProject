@@ -33,7 +33,7 @@ export const addBookToCart = async (userID, bookID) => {
       price: book.price, // Assuming `price` exists in the `Book` model
     });
     return { success: true, data: cartItem };
-    
+
   } catch (error) {
     console.error('Error adding book to cart:', error.message, error.stack);
     return { success: false, message: 'An error occurred while adding the book to the cart' };
@@ -60,3 +60,27 @@ export const getCartItems = async (userID) => {
   }
 };
 
+//update cart item quantity
+export const updateCartItem = async (userID, cartID, quantity) => {
+  try {
+    // Validate input
+    if (!userID || !cartID || !quantity) {
+      return { success: false, message: 'Invalid input' };
+    }
+
+    // Find the cart item
+    const cartItem = await Cart.findOne({ where: { userID:userID, cartID:cartID } });
+    if (!cartItem) {
+      return { success: false, message: 'Cart item not found' };
+    }
+
+    // Update the quantity
+    cartItem.quantity = quantity;
+    await cartItem.save();
+
+    return { success: true, data: cartItem };
+  } catch (error) {
+    console.error('Error updating cart item:', error.message, error.stack);
+    return { success: false, message: 'An error occurred while updating the cart item' };
+  }
+};

@@ -10,6 +10,7 @@ const router = express.Router();
 
 router.post('', userAuth, hasRole(['user']), newCartValidator, cartController.addBookToCart);
 router.get('', userAuth, hasRole(['user']), cartController.getCartItems);
+router.put('', userAuth, hasRole(['user']), cartController.updateCartItem);
 
 
 export default router;

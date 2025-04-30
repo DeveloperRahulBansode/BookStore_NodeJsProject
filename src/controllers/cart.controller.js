@@ -48,4 +48,28 @@ export const getCartItems = async (req, res, next) => {
       next(error);
     }
   };
+
+//update cart item
+export const updateCartItem = async (req, res, next) => {
+    try {
+      const userID = res.locals.user.id; 
+      const { cartID, quantity } = req.body;
+      const data = await CartService.updateCartItem(userID, cartID, quantity);
   
+      if (!data.success) {
+        return res.status(HttpStatus.BAD_REQUEST).json({
+          code: HttpStatus.BAD_REQUEST,
+          data: [],
+          message: data.message || 'Failed to update cart item',
+        });
+      }
+      res.status(HttpStatus.OK).json({
+        code: HttpStatus.OK,
+        data: data.data,
+        message: 'Cart item updated successfully',
+      });
+    } catch (error) {
+      console.error('Error in updateCartItem controller:', error.message, error.stack);
+      next(error);
+    }
+  };

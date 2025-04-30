@@ -5,7 +5,7 @@ import { Book } from './book.js';
 
 
 const Cart = sequelize.define('Carts', {
-    cardID: {
+    cartID: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true
