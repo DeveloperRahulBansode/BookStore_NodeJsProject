@@ -1,4 +1,3 @@
-
 import HttpStatus from 'http-status-codes';
 
 /**
@@ -16,5 +15,3 @@ export const hasRole = (roles) => {
     next();
   };
 };
-
-

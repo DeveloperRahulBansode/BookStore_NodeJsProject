@@ -6,12 +6,9 @@ import { hasRole } from '../middlewares/role.js';
 
 const router = express.Router();
 
-
-
 router.post('', userAuth, hasRole(['user']), newCartValidator, cartController.addBookToCart);
 router.get('', userAuth, hasRole(['user']), cartController.getCartItems);
 router.put('', userAuth, hasRole(['user']), cartController.updateCartItem);
 router.delete('', userAuth, hasRole(['user']), cartController.deleteCartItem);
-
 
 export default router;

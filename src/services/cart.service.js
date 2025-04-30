@@ -57,7 +57,7 @@ export const getCartItems = async (userID) => {
     let totalPrice = 0;
     cartItems.forEach(item => {
       totalPrice += item.price * item.quantity;
-    } );
+    });
 
     return { success: true, data: cartItems, totalPrice };
   } catch (error) {
@@ -75,7 +75,7 @@ export const updateCartItem = async (userID, cartID, quantity) => {
     }
 
     // Find the cart item
-    const cartItem = await Cart.findOne({ where: { userID:userID, cartID:cartID } });
+    const cartItem = await Cart.findOne({ where: { userID: userID, cartID: cartID } });
     if (!cartItem) {
       return { success: false, message: 'Cart item not found' };
     }
@@ -101,7 +101,7 @@ export const deleteCartItem = async (userID, cartID) => {
     }
 
     // Find the cart item
-    const cartItem = await Cart.findOne({ where: { userID:userID, cartID:cartID } });
+    const cartItem = await Cart.findOne({ where: { userID: userID, cartID: cartID } });
     if (!cartItem) {
       return { success: false, message: 'Cart item not found' };
     }
@@ -115,4 +115,3 @@ export const deleteCartItem = async (userID, cartID) => {
     return { success: false, message: 'An error occurred while deleting the cart item' };
   }
 };
-

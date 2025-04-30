@@ -142,7 +142,7 @@ export const adminRefreshToken = async (token) => {
   try {
     const decoded = jwt.verify(token, process.env.REFRESH_SECRET_ADMIN);
     const { id } = decoded;
-    
+
     // Check if the user exists
     const user = await Admin.findByPk(id);
     if (!user) {
@@ -173,7 +173,7 @@ export const adminForgotPassword = async (email) => {
       return { success: false, message: 'User not found' };
     }
 
-    const { accessToken } = generateTokens({ id: data.adminID, role:data.role });
+    const { accessToken } = generateTokens({ id: data.adminID, role: data.role });
     const result = await sendResetEmail(data.email, `http://localhost:3000/reset-password.html?token=${accessToken}`);
 
     if (result.success) {
@@ -203,20 +203,20 @@ export const adminResetPassword = async (token, password, confirmPassword) => {
     let decoded;
     try {
 
-      decoded = jwt.verify(token, process.env.ACCESS_SECRET_ADMIN); 
-      console.log('Decoded token:', decoded); 
+      decoded = jwt.verify(token, process.env.ACCESS_SECRET_ADMIN);
+      console.log('Decoded token:', decoded);
     } catch (error) {
       console.error('Token verification failed:', error);
       return { success: false, message: 'Invalid or expired token' };
     }
 
     // Find user by ID from the decoded token
-    const user = await Admin.findByPk(decoded.id); 
+    const user = await Admin.findByPk(decoded.id);
     if (!user) {
       return { success: false, message: 'User not found' };
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10); 
+    const hashedPassword = await bcrypt.hash(password, 10);
 
     user.password = hashedPassword;
     await user.save();
@@ -227,6 +227,3 @@ export const adminResetPassword = async (token, password, confirmPassword) => {
     return { success: false, message: 'Something went wrong. Please try again.' };
   }
 };
-
-
-

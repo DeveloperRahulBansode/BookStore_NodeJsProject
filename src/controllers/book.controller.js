@@ -9,24 +9,24 @@ import * as BookService from '../services/book.service';
  * @param {Function} next
  */
 export const createBook = async (req, res, next) => {
-    try {
-      const data = await BookService.newBook(req.body);
-      if (!data.success) {
-        return res.status(HttpStatus.BAD_REQUEST).json({
-          code: HttpStatus.BAD_REQUEST,
-          data: [],
-          message: 'Failed to create book',
-        });
-      }
-      res.status(HttpStatus.CREATED).json({
-        code: HttpStatus.CREATED,
-        data: data,
-        message: 'Book created successfully',
+  try {
+    const data = await BookService.newBook(req.body);
+    if (!data.success) {
+      return res.status(HttpStatus.BAD_REQUEST).json({
+        code: HttpStatus.BAD_REQUEST,
+        data: [],
+        message: 'Failed to create book',
       });
-    } catch (error) {
-      next(error);
     }
-  };
+    res.status(HttpStatus.CREATED).json({
+      code: HttpStatus.CREATED,
+      data: data,
+      message: 'Book created successfully',
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 
 // Controller to update a book
 /**

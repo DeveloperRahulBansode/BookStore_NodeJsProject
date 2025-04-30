@@ -30,9 +30,9 @@ const Cart = sequelize.define('Carts', {
         type: DataTypes.INTEGER,
         allowNull: false,
         validate: {
-          isInt: true,
+            isInt: true,
         }
-      },
+    },
     isPurchased: {
         type: DataTypes.BOOLEAN,
         defaultValue: false
@@ -48,6 +48,5 @@ Cart.belongsTo(User, { foreignKey: 'userID' });
 
 Book.hasMany(Cart, { foreignKey: 'bookID' });
 Cart.belongsTo(Book, { foreignKey: 'bookID' });
-
 
 export { Cart };

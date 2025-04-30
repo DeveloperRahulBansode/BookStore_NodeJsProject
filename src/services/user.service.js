@@ -2,7 +2,6 @@ import { User } from '../models/user';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { generateTokens } from '../utils/jwtToken.js';
-
 import { sendResetEmail } from '../helpers/mail.helper.js';
 
 // //get all users
@@ -147,7 +146,7 @@ export const userRefreshToken = async (token) => {
     // Verify the refresh token
     const decoded = jwt.verify(token, process.env.REFRESH_SECRET_USER);
     const { id } = decoded;
-    
+
     // Check if the user exists
     const user = await User.findByPk(id);
     if (!user) {
@@ -179,7 +178,7 @@ export const userForgotPassword = async (email) => {
       return { success: false, message: 'User not found' };
     }
 
-    const { accessToken } = generateTokens({ id: data.userID, role:data.role });
+    const { accessToken } = generateTokens({ id: data.userID, role: data.role });
     const result = await sendResetEmail(data.email, `http://localhost:3000/reset-password.html?token=${accessToken}`);
 
     if (result.success) {
@@ -216,12 +215,12 @@ export const userResetPassword = async (token, password, confirmPassword) => {
     }
 
     // Find user by ID from the decoded token
-    const user = await User.findByPk(decoded.id); 
+    const user = await User.findByPk(decoded.id);
     if (!user) {
       return { success: false, message: 'User not found' };
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10); 
+    const hashedPassword = await bcrypt.hash(password, 10);
 
     user.password = hashedPassword;
     await user.save();

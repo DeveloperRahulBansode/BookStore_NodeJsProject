@@ -80,8 +80,6 @@ export const newAdmin = async (req, res, next) => {
   }
 };
 
-
-
 /**
  * Controller to login a user
  * @param  {object} req - request object
@@ -110,7 +108,7 @@ export const adminLogin = async (req, res, next) => {
 
 //refresh token
 export const refreshToken = async (req, res, next) => {
-  try {   
+  try {
     // Call the service to refresh the token
     const userData = await AdminService.adminRefreshToken(req.body.refreshToken);
 
@@ -162,7 +160,7 @@ export const adminForgotPassword = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-} 
+}
 
 
 /**
