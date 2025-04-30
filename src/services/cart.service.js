@@ -53,7 +53,13 @@ export const getCartItems = async (userID) => {
       include: [{ model: Book }], // Include book details
     });
 
-    return { success: true, data: cartItems };
+    //book price total
+    let totalPrice = 0;
+    cartItems.forEach(item => {
+      totalPrice += item.price * item.quantity;
+    } );
+
+    return { success: true, data: cartItems, totalPrice };
   } catch (error) {
     console.error('Error fetching cart items:', error.message, error.stack);
     return { success: false, message: 'An error occurred while fetching cart items' };
@@ -84,3 +90,29 @@ export const updateCartItem = async (userID, cartID, quantity) => {
     return { success: false, message: 'An error occurred while updating the cart item' };
   }
 };
+
+
+//delete cart item
+export const deleteCartItem = async (userID, cartID) => {
+  try {
+    // Validate input
+    if (!userID || !cartID) {
+      return { success: false, message: 'Invalid input' };
+    }
+
+    // Find the cart item
+    const cartItem = await Cart.findOne({ where: { userID:userID, cartID:cartID } });
+    if (!cartItem) {
+      return { success: false, message: 'Cart item not found' };
+    }
+
+    // Delete the cart item
+    await cartItem.destroy();
+
+    return { success: true, message: 'Cart item deleted successfully' };
+  } catch (error) {
+    console.error('Error deleting cart item:', error.message, error.stack);
+    return { success: false, message: 'An error occurred while deleting the cart item' };
+  }
+};
+
