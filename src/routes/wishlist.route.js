@@ -8,6 +8,7 @@ const router = express.Router();
 
 router.post('', userAuth, hasRole(['user']), newWishlistValidator, wishlistController.addToWishlist);
 router.delete('', userAuth, hasRole(['user']),newWishlistValidator, wishlistController.removeFromWishlist);
+router.get('', userAuth, hasRole(['user']), wishlistController.getWishlist);
 
 
 

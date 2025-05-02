@@ -33,3 +33,18 @@ export const removeFromWishlist = async (userID, bookID) => {
       return { success: false, message: 'Failed to remove from wishlist' };
     }
   };
+
+  //get all books in the wishlist by userID
+  export const getWishlistByUserID = async (userID) => {
+    try {
+      const wishlist = await Wishlist.findAll({
+        where: { userID },
+        include: [{ model: Book }],
+      });
+  
+      return { success: true, data: wishlist };
+    } catch (error) {
+      console.error('Error fetching wishlist:', error);
+      return { success: false, message: 'Failed to get wishlist' };
+    }
+  };

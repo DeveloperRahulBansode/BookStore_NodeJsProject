@@ -50,3 +50,27 @@ export const removeFromWishlist = async (req, res, next) => {
     next(error);
   }
 };
+
+//get all books in the wishlist by userID
+export const getWishlist = async (req, res, next) => {
+  try {
+    const userID = res.locals.user.id; // Assuming userID is stored in res.locals.user after authentication
+    const data = await WishlistService.getWishlistByUserID(userID);
+
+    if (!data.success) {
+      return res.status(HttpStatus.BAD_REQUEST).json({
+        code: HttpStatus.BAD_REQUEST,
+        data: [],
+        message: data.message || 'Failed to fetch wishlist',
+      });
+    }
+    res.status(HttpStatus.OK).json({
+      code: HttpStatus.OK,
+      data: data.data,
+      message: 'Wishlist fetched successfully',
+    });
+  } catch (error) {
+    console.error('Error in getWishlistByUserID controller:', error.message, error.stack);
+    next(error);
+  }
+};
