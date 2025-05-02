@@ -2,7 +2,6 @@ import { DataTypes } from 'sequelize';
 import sequelize from '../config/database.js';
 import { User } from './user.js';
 import { Book } from './book.js';
-import e from 'express';
 
 const Wishlist = sequelize.define('Wishlists', {
     wishlistID: {

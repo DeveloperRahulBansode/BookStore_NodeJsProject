@@ -25,3 +25,28 @@ export const addToWishlist = async (req, res, next) => {
     next(error);
   }
 };
+
+//remove book from wishlist
+export const removeFromWishlist = async (req, res, next) => {
+  try {
+    const userID = res.locals.user.id; // Assuming userID is stored in res.locals.user after authentication
+    const { bookID } = req.body;
+    const data = await WishlistService.removeFromWishlist(userID, bookID);
+
+    if (!data.success) {
+      return res.status(HttpStatus.BAD_REQUEST).json({
+        code: HttpStatus.BAD_REQUEST,
+        data: [],
+        message: data.message || 'Failed to remove book from wishlist',
+      });
+    }
+    res.status(HttpStatus.OK).json({
+      code: HttpStatus.OK,
+      data: data.data,
+      message: 'Book removed from wishlist successfully',
+    });
+  } catch (error) {
+    console.error('Error in removeFromWishlist controller:', error.message, error.stack);
+    next(error);
+  }
+};

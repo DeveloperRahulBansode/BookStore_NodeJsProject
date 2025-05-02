@@ -18,3 +18,18 @@ export const addToWishlist = async (userID, bookID) => {
     }
   };
 
+  //remove a book from the wishlist
+export const removeFromWishlist = async (userID, bookID) => {
+    try {
+      const existing = await Wishlist.findOne({ where: { userID, bookID } });
+      if (!existing) {
+        return { success: false, message: 'Book not found in wishlist' };
+      }
+  
+      await Wishlist.destroy({ where: { userID, bookID } });
+      return { success: true, message: 'Book removed from wishlist' };
+    } catch (error) {
+      console.error('Error removing from wishlist:', error);
+      return { success: false, message: 'Failed to remove from wishlist' };
+    }
+  };
