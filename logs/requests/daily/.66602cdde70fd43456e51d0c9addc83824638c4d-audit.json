@@ -46,9 +46,20 @@
             "hash": "2108b3e665889e2bb44d564d5de7bea6b76d87dfdcca821fde09e6f16968822c"
         },
         {
+<<<<<<< HEAD
             "date": 1746173223786,
             "name": "logs\\requests\\daily\\2025-05-02.log",
             "hash": "40dc49ee9f41ed0c7e795f33f7d67575bd37ed29f128206686790fb30c1148e2"
+=======
+            "date": 1745993522279,
+            "name": "logs\\requests\\daily\\2025-04-30.log",
+            "hash": "6c88b3d3a318af0b39f34d7a1a5877d31b7fd58ce444ea8ebbe4ee090e3259f9"
+        },
+        {
+            "date": 1746169579759,
+            "name": "logs\\requests\\daily\\2025-05-02.log",
+            "hash": "ec38730199268867e37c13f3b852a9971ba0c8b0b5add288d3756d031c97960b"
+>>>>>>> cart
         }
     ],
     "hashType": "sha256"

@@ -13,7 +13,7 @@ export const userAuth = async (req, res, next) => {
     const token = bearerToken.split(' ')[1];
     // const decoded = jwt.verify(token, process.env.ACCESS_SECRET_ADMIN);
 
-    
+
     let decoded;
     try {
       decoded = jwt.verify(token, process.env.ACCESS_SECRET_ADMIN);
@@ -25,6 +25,7 @@ export const userAuth = async (req, res, next) => {
         throw new Error('Invalid token');
       }
     }
+    console.log('Decoded token:', decoded);
 
     // Store the decoded user and role in the response locals
     res.locals.user = decoded;

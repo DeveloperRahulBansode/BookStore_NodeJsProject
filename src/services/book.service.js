@@ -1,4 +1,4 @@
-import { Book } from "../models/book";  
+import { Book } from "../models/book";
 import { Op } from "sequelize"; // Import Op from Sequelize
 
 
@@ -16,7 +16,7 @@ import { Op } from "sequelize"; // Import Op from Sequelize
 // Create a new book
 export const newBook = async (bookData) => {
   try {
-   
+
     const book = await Book.create(bookData);
     return { success: true, data: book };
   } catch (error) {
@@ -106,7 +106,7 @@ export const getAllBooks = async (page = 1, limit = 10) => {
 export const searchBooksByTitle = async (bookName) => {
   try {
     const data = await Book.findAll({
-      where: { bookName: { [Op.like]: `%${bookName}%` } }, 
+      where: { bookName: { [Op.like]: `%${bookName}%` } },
     });
     return { success: true, data };
   } catch (error) {
@@ -119,7 +119,7 @@ export const searchBooksByTitle = async (bookName) => {
 export const searchBooksByAuthor = async (author) => {
   try {
     const data = await Book.findAll({
-      where: { author: { [Op.like]: `%${author}%` } }, 
+      where: { author: { [Op.like]: `%${author}%` } },
     });
     return { success: true, data };
   } catch (error) {
@@ -139,7 +139,7 @@ export const searchBooksByDate = async (createdAt) => {
       where: {
         createdAt: {
           [Op.gte]: startDate,
-          [Op.lt]: endDate, 
+          [Op.lt]: endDate,
         },
       },
     });
@@ -157,7 +157,7 @@ export const sortBooksByPrice = async (order = 'ASC') => {
       return { success: false, message: 'Invalid order parameter. Use "ASC" or "DESC".' };
     }
     const data = await Book.findAll({
-      order: [['price', order]], 
+      order: [['price', order]],
     });
     return { success: true, data };
   } catch (error) {

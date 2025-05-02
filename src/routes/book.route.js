@@ -6,11 +6,10 @@ import { hasRole } from '../middlewares/role.js';
 
 const router = express.Router();
 
-// //route to get all books
+//route to get all books
 router.get('', userAuth, hasRole(['admin', 'user']), bookController.getAllBooks);
 
 //route to create a new book
-
 router.post('', userAuth, hasRole(['admin']), newbookValidator, bookController.createBook);
 
 
@@ -27,8 +26,6 @@ router.get('/search/createdAt', userAuth, hasRole(['admin', 'user']), bookContro
 router.get('/sort/price', userAuth, hasRole(['admin', 'user']), bookController.sortBooksByPrice);
 
 
-
-
 //route to update a book
 router.put('/:bookID', userAuth, hasRole(['admin']), newbookValidator, bookController.updateBook);
 
@@ -37,9 +34,5 @@ router.delete('/:bookID', userAuth, hasRole(['admin']), bookController.deleteBoo
 
 //route to get a single book
 router.get('/:bookID', userAuth, hasRole(['admin', 'user']), bookController.getBook);
-
-
-
-
 
 export default router;

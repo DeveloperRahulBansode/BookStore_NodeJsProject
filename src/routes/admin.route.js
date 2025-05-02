@@ -13,7 +13,7 @@ const router = express.Router();
 router.post('', newAdminValidator, adminController.newAdmin);
 
 //route to login a user
-router.post('/login', adminController.adminLogin);
+router.post('/login', newAdminValidator, adminController.adminLogin);
 
 // //route to get a single user
 // router.get('/:id', userController.getUser);
