@@ -14,9 +14,8 @@ export const placeOrder = async (userID) => {
       return { success: false, message: 'Customer details not found for the user' };
     }
 
-    const customerID = customer.customerID; // Retrieve customerID dynamically
+    const customerID = customer.customerID; 
 
-    // Fetch cart items for the user where isPurchased is false
     const cartItems = await Cart.findAll({
       where: { userID, isPurchased: false }
     });
@@ -42,7 +41,7 @@ export const placeOrder = async (userID) => {
       // Prepare order data for bulk insert
       orderData.push({
         userID,
-        customerID, // Use the dynamically fetched customerID
+        customerID,
         bookID: item.bookID,
         quantity: item.quantity,
         price: item.price,
