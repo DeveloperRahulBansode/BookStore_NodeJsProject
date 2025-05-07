@@ -5,8 +5,7 @@ import * as WishlistService from '../services/wishlist.service';
 export const addToWishlist = async (req, res, next) => {
   try {
     const userID = res.locals.user.id; // Assuming userID is stored in res.locals.user after authentication
-    const { bookID } = req.body;
-    const data = await WishlistService.addToWishlist(userID, bookID);
+    const data = await WishlistService.addToWishlist(userID, req.params.bookID);
 
     if (!data.success) {
       return res.status(HttpStatus.BAD_REQUEST).json({
@@ -30,8 +29,7 @@ export const addToWishlist = async (req, res, next) => {
 export const removeFromWishlist = async (req, res, next) => {
   try {
     const userID = res.locals.user.id; // Assuming userID is stored in res.locals.user after authentication
-    const { bookID } = req.body;
-    const data = await WishlistService.removeFromWishlist(userID, bookID);
+    const data = await WishlistService.removeFromWishlist(userID, req.params.bookID);
 
     if (!data.success) {
       return res.status(HttpStatus.BAD_REQUEST).json({

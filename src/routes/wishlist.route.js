@@ -6,11 +6,9 @@ import { hasRole } from '../middlewares/role.js';
 
 const router = express.Router();
 
-router.post('', userAuth, hasRole(['user']), newWishlistValidator, wishlistController.addToWishlist);
-router.delete('', userAuth, hasRole(['user']),newWishlistValidator, wishlistController.removeFromWishlist);
+router.post('/:bookID', userAuth, hasRole(['user']), newWishlistValidator, wishlistController.addToWishlist);
+router.delete('/:bookID', userAuth, hasRole(['user']),newWishlistValidator, wishlistController.removeFromWishlist);
 router.get('', userAuth, hasRole(['user']), wishlistController.getWishlist);
-
-
 
 
 export default router;

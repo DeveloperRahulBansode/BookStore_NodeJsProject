@@ -4,8 +4,7 @@ import * as CartService from '../services/cart.service';
 export const addBookToCart = async (req, res, next) => {
   try {
     const userID = res.locals.user.id; // Assuming userID is stored in res.locals.user after authentication
-    const { bookID } = req.body;
-    const data = await CartService.addBookToCart(userID, bookID);
+    const data = await CartService.addBookToCart(userID, req.params.bookID);
 
     if (!data.success) {
       return res.status(HttpStatus.BAD_REQUEST).json({
@@ -54,8 +53,8 @@ export const getCartItems = async (req, res, next) => {
 export const updateCartItem = async (req, res, next) => {
   try {
     const userID = res.locals.user.id;
-    const { cartID, quantity } = req.body;
-    const data = await CartService.updateCartItem(userID, cartID, quantity);
+    const { quantity } = req.body;
+    const data = await CartService.updateCartItem(userID, req.params.cartID, quantity);
 
     if (!data.success) {
       return res.status(HttpStatus.BAD_REQUEST).json({
@@ -79,8 +78,7 @@ export const updateCartItem = async (req, res, next) => {
 export const deleteCartItem = async (req, res, next) => {
   try {
     const userID = res.locals.user.id;
-    const { cartID } = req.body;
-    const data = await CartService.deleteCartItem(userID, cartID);
+    const data = await CartService.deleteCartItem(userID, req.params.cartID);
 
     if (!data.success) {
       return res.status(HttpStatus.BAD_REQUEST).json({

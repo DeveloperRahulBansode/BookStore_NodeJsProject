@@ -14,7 +14,7 @@ router.post('', userAuth, hasRole(['admin']), newbookValidator, bookController.c
 
 
 // Route to search books by title
-router.get('/search/title', userAuth, hasRole(['admin', 'user']), bookController.searchBooksByTitle);
+router.get('/search/bookName', userAuth, hasRole(['admin', 'user']), bookController.searchBooksByTitle);
 
 // Route to search books by author
 router.get('/search/author', userAuth, hasRole(['admin', 'user']), bookController.searchBooksByAuthor);

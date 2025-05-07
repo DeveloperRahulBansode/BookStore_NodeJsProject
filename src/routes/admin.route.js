@@ -13,7 +13,7 @@ const router = express.Router();
 router.post('', newAdminValidator, adminController.newAdmin);
 
 //route to login a user
-router.post('/login', newAdminValidator, adminController.adminLogin);
+router.post('/login', adminController.adminLogin);
 
 // //route to get a single user
 // router.get('/:id', userController.getUser);
@@ -22,10 +22,10 @@ router.post('/login', newAdminValidator, adminController.adminLogin);
 router.post('/token/refresh', adminController.refreshToken);
 
 //route for forgot password
-router.post('/forget', newAdminValidator, adminController.adminForgotPassword);
+router.post('/forget', adminController.adminForgotPassword);
 
 //route for reset password
-router.post('/reset', newAdminValidator, adminController.adminResetPassword);
+router.post('/reset', adminController.adminResetPassword);
 
 export default router;
     

@@ -1,0 +1,1309 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+        "title": "BookStore API",
+        "description": "This is the BookStore application API documentation.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:4000/api/v1",
+            "description": "Local development server"
+        }
+    ],
+    "tags": [
+        {
+            "name": "User",
+            "description": "Operations related to user management"
+        }
+    ],
+    "paths": {
+        "/users": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Register a new user",
+                "requestBody": {
+                    "description": "User registration details",
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AddUser"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "User created successfully",
+                        "content": {}
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {}
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {}
+                    }
+                },
+                "x-codegen-request-body-name": "Add new User"
+            }
+        },
+        "/users/login": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Login User",
+                "requestBody": {
+                    "description": "User login details",
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/login"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "user login  successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/login"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User not found",
+                        "content": {}
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {}
+                    }
+                },
+                "x-codegen-request-body-name": "Login User"
+            }
+        },
+        "/users/forget": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Forget User Password ",
+                "requestBody": {
+                    "description": "Enter Your Email ",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ForgetPassword"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "reset password link sent sucessfully",
+                        "content": {}
+                    },
+                    "404": {
+                        "description": "User not found",
+                        "content": {}
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {}
+                    }
+                },
+                "x-codegen-request-body-name": "Forget User"
+            }
+        },
+        "/users/reset": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "reset User Password ",
+                "requestBody": {
+                    "description": "Enter Your new Password ",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ResetPassword"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "reset password link sent sucessfully",
+                        "content": {}
+                    },
+                    "404": {
+                        "description": "User not found",
+                        "content": {}
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {}
+                    }
+                },
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "x-codegen-request-body-name": "new password"
+            }
+        },
+        "/users/token/refresh": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "get Access and Refresh Token",
+                "description": "get Acccess Token.",
+                "requestBody": {
+                    "description": "Enter Your Token ",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RefreshToken"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "Token Genaration  successfully"
+                    },
+                    "404": {
+                        "description": "Invalid Token "
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/admins": {
+            "post": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Register a new admin",
+                "requestBody": {
+                    "description": "Admin registration details",
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AddAdmin"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Admin created successfully",
+                        "content": {}
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {}
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {}
+                    }
+                },
+                "x-codegen-request-body-name": "Add new User"
+            }
+        },
+        "/admins/login": {
+            "post": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Login admin",
+                "requestBody": {
+                    "description": "Admin login details",
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Adminlogin"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Asmin login  successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Adminlogin"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Admin not found",
+                        "content": {}
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {}
+                    }
+                },
+                "x-codegen-request-body-name": "Login Admin"
+            }
+        },
+        "/admins/forget": {
+            "post": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Forget Admin Password ",
+                "requestBody": {
+                    "description": "Enter Your Email ",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AdminForgetPassword"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "reset password link sent sucessfully",
+                        "content": {}
+                    },
+                    "404": {
+                        "description": "Admin not found",
+                        "content": {}
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {}
+                    }
+                },
+                "x-codegen-request-body-name": "Forget Admin"
+            }
+        },
+        "/admins/reset": {
+            "post": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "reset Admin Password ",
+                "requestBody": {
+                    "description": "Enter Your new Password ",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AdminResetPassword"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "reset password sucessfully",
+                        "content": {}
+                    },
+                    "404": {
+                        "description": "Admin not found",
+                        "content": {}
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {}
+                    }
+                },
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "x-codegen-request-body-name": "new password"
+            }
+        },
+        "/admins/token/refresh": {
+            "post": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "get Access and Refresh Token",
+                "description": "get Acccess Token.",
+                "requestBody": {
+                    "description": "Enter Your Token ",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AdminRefreshToken"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "Token Genaration  successfully"
+                    },
+                    "404": {
+                        "description": "Invalid Token "
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/books": {
+            "get": {
+                "tags": [
+                    "Book"
+                ],
+                "summary": "get All Books ",
+                "responses": {
+                    "204": {
+                        "description": "get All Books sucessfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/AddBook"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Admin not found",
+                        "content": {}
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {}
+                    }
+                },
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "x-codegen-request-body-name": "Get All Books"
+            },
+            "post": {
+                "tags": [
+                    "Book"
+                ],
+                "summary": "Add book ",
+                "requestBody": {
+                    "description": "Add book details",
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AddBook"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "Add Book sucessfully",
+                        "content": {}
+                    },
+                    "404": {
+                        "description": "Admin not found",
+                        "content": {}
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {}
+                    }
+                },
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "x-codegen-request-body-name": "Add Book"
+            }
+        },
+        "/books/search/bookName": {
+            "get": {
+                "tags": [
+                    "Book"
+                ],
+                "summary": "Search book by title",
+                "parameters": [
+                    {
+                        "name": "bookName",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Title of the book to search"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Books fetched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AddBook"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No books found"
+                    }
+                },
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ]
+            }
+        },
+        "/books/search/author": {
+            "get": {
+                "tags": [
+                    "Book"
+                ],
+                "summary": "Search book by author",
+                "parameters": [
+                    {
+                        "name": "author",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "author of the book to search"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Books fetched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AddBook"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No books found"
+                    }
+                },
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ]
+            }
+        },
+        "/books/search/createdAt": {
+            "get": {
+                "tags": [
+                    "Book"
+                ],
+                "summary": "Search book by Date",
+                "parameters": [
+                    {
+                        "name": "createdAt",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Date of the book to search"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Books fetched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AddBook"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No books found"
+                    }
+                },
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ]
+            }
+        },
+        "/books/sort/price": {
+            "get": {
+                "tags": [
+                    "Book"
+                ],
+                "summary": "Sort book by price",
+                "parameters": [
+                    {
+                        "name": "order",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "price of book for Sort"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Books fetched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AddBook"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No books found"
+                    }
+                },
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ]
+            }
+        },
+        "/books/{bookID}": {
+            "get": {
+                "tags": [
+                    "Book"
+                ],
+                "summary": "Get Book By bookID",
+                "parameters": [
+                    {
+                        "name": "bookID",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "Enter bookID"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Books fetched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AddBook"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No books found"
+                    }
+                },
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Book"
+                ],
+                "summary": "Update Book By bookID",
+                "parameters": [
+                    {
+                        "name": "bookID",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "Enter bookID"
+                    }
+                ],
+                "requestBody": {
+                    "description": "Add book details",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AddBook"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Books Update successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AddBook"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No books found"
+                    }
+                },
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ]
+            }
+        },
+        "/carts": {
+            "get": {
+                "tags": [
+                    "Cart"
+                ],
+                "summary": "get all Cart ",
+                "responses": {
+                    "204": {
+                        "description": " get Cart sucessfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User not found",
+                        "content": {}
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {}
+                    }
+                },
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "x-codegen-request-body-name": "Get Cart"
+            }
+        },
+        "/carts/{bookID}": {
+            "post": {
+                "tags": [
+                    "Cart"
+                ],
+                "summary": "Add To Cart ",
+                "parameters": [
+                    {
+                        "name": "bookID",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "Enter bookID"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": " Book Add in Cart sucessfully",
+                        "content": {}
+                    },
+                    "404": {
+                        "description": "User not found",
+                        "content": {}
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {}
+                    }
+                },
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "x-codegen-request-body-name": "Add Cart"
+            }
+        },
+        "/carts/{cartID}": {
+            "delete": {
+                "tags": [
+                    "Cart"
+                ],
+                "summary": "delete Cart By id",
+                "parameters": [
+                    {
+                        "name": "cartID",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "Enter cartID"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Carts Deleted successfully",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "404": {
+                        "description": "No Cart found"
+                    }
+                },
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Cart"
+                ],
+                "summary": "Update Cart By id",
+                "parameters": [
+                    {
+                        "name": "cartID",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "Enter cartID"
+                    }
+                ],
+                "requestBody": {
+                    "description": "Add Quntity Of Book",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateCart"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Carts Updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UpdateCart"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No Cart found"
+                    }
+                },
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ]
+            }
+        },
+        "/wishlists": {
+            "get": {
+                "tags": [
+                    "Wishlist"
+                ],
+                "summary": "get all Wishlist ",
+                "responses": {
+                    "204": {
+                        "description": " get Wishlist sucessfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User not found",
+                        "content": {}
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {}
+                    }
+                },
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "x-codegen-request-body-name": "Get Cart"
+            }
+        },
+        "/wishlists/{bookID}": {
+            "post": {
+                "tags": [
+                    "Wishlist"
+                ],
+                "summary": "Add to Wishlist ",
+                "parameters": [
+                    {
+                        "name": "bookID",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "Enter bookID"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": " create Wishlist sucessfully",
+                        "content": {}
+                    },
+                    "404": {
+                        "description": "User not found",
+                        "content": {}
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {}
+                    }
+                },
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "x-codegen-request-body-name": "Add wishlist"
+            },
+            "delete": {
+                "tags": [
+                    "Wishlist"
+                ],
+                "summary": "delete Wishlist by bookID  ",
+                "parameters": [
+                    {
+                        "name": "bookID",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "Enter bookID"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": " Deleted Wishlist sucessfully",
+                        "content": {}
+                    },
+                    "404": {
+                        "description": "User not found",
+                        "content": {}
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {}
+                    }
+                },
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "x-codegen-request-body-name": "Delete Wishlist"
+            }
+        },
+        "/customers": {
+        "post": {
+                "tags": [
+                    "customer"
+                ],
+                "summary": "Add Customer Details",
+                "requestBody": {
+                    "description": "Add Customer Details",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AddCustomerDetails"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Add Customer successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AddCustomerDetails"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No Cart found"
+                    }
+                },
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ]
+            }
+        },
+        "/orders": {
+        "post": {
+                "tags": [
+                    "Order"
+                ],
+                "summary": "Add to order ",
+                "responses": {
+                    "200": {
+                        "description": "Add Customer successfully",
+                        "content": {}
+                    },
+                    "404": {
+                        "description": "No Cart found"
+                    }
+                },
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "AddUser": {
+                "type": "object",
+                "properties": {
+                    "userID": {
+                        "type": "integer",
+                        "description": "Auto-generated unique identifier for the user. Read-only.",
+                        "readOnly": true
+                    },
+                    "fullName": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string",
+                        "example": "mail@example.com"
+                    },
+                    "password": {
+                        "type": "string"
+                    },
+                    "mobileNumber": {
+                        "type": "string"
+                    },
+                    "role": {
+                        "type": "string"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Timestamp when the record was created. Read-only.",
+                        "readOnly": true
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Timestamp when the record was last updated. Read-only.",
+                        "readOnly": true
+                    }
+                }
+            },
+            "login": {
+                "type": "object",
+                "properties": {
+                    "email": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    }
+                }
+            },
+            "RefreshToken": {
+                "type": "object",
+                "properties": {
+                    "refreshToken": {
+                        "type": "string"
+                    }
+                }
+            },
+            "ForgetPassword": {
+                "type": "object",
+                "properties": {
+                    "email": {
+                        "type": "string"
+                    }
+                }
+            },
+            "ResetPassword": {
+                "type": "object",
+                "properties": {
+                    "token": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    },
+                    "confirmPassword": {
+                        "type": "string"
+                    }
+                }
+            },
+            "AddAdmin": {
+                "type": "object",
+                "properties": {
+                    "userID": {
+                        "type": "integer",
+                        "description": "Auto-generated unique identifier for the user. Read-only.",
+                        "readOnly": true
+                    },
+                    "fullName": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string",
+                        "example": "mail@example.com"
+                    },
+                    "password": {
+                        "type": "string"
+                    },
+                    "mobileNumber": {
+                        "type": "string"
+                    },
+                    "role": {
+                        "type": "string"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Timestamp when the record was created. Read-only.",
+                        "readOnly": true
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Timestamp when the record was last updated. Read-only.",
+                        "readOnly": true
+                    }
+                }
+            },
+            "Adminlogin": {
+                "type": "object",
+                "properties": {
+                    "email": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    }
+                }
+            },
+            "AdminRefreshToken": {
+                "type": "object",
+                "properties": {
+                    "refreshToken": {
+                        "type": "string"
+                    }
+                }
+            },
+            "AdminForgetPassword": {
+                "type": "object",
+                "properties": {
+                    "email": {
+                        "type": "string"
+                    }
+                }
+            },
+            "AdminResetPassword": {
+                "type": "object",
+                "properties": {
+                    "token": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    },
+                    "confirmPassword": {
+                        "type": "string"
+                    }
+                }
+            },
+            "AddBook": {
+                "type": "object",
+                "properties": {
+                    "bookID": {
+                        "type": "integer",
+                        "description": "Auto-generated unique identifier for the book. Read-only.",
+                        "readOnly": true
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "Description of the book."
+                    },
+                    "discountPrice": {
+                        "type": "integer",
+                        "description": "Discounted price of the book."
+                    },
+                    "bookImage": {
+                        "type": "string",
+                        "description": "URL of the book's image.",
+                        "format": "url"
+                    },
+                    "bookName": {
+                        "type": "string",
+                        "description": "Name of the book."
+                    },
+                    "author": {
+                        "type": "string",
+                        "description": "Author of the book."
+                    },
+                    "quantity": {
+                        "type": "integer",
+                        "description": "Available quantity of the book."
+                    },
+                    "price": {
+                        "type": "integer",
+                        "description": "Price of the book."
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Timestamp when the book record was created. Read-only.",
+                        "readOnly": true
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Timestamp when the book record was last updated. Read-only.",
+                        "readOnly": true
+                    }
+                }
+            },
+            "UpdateCart": {
+                "type": "object",
+                "properties": {
+                    "quantity": {
+                        "type": "integer",
+                        "description": "Chnage quantity of the book."
+                    }
+                }
+            },
+
+            "AddCustomerDetails": {
+                "type": "object",
+                "properties": {
+                    "customerID": {
+                        "type": "integer",
+                        "description": "Auto-generated unique identifier for the customer. Read-only.",
+                        "readOnly": true
+                    },
+                    "userID": {
+                        "type": "integer",
+                        "description": "Get unique identifier from User. Read-only.",
+                        "readOnly": true
+                    },
+                    "fullName": {
+                        "type": "string",
+                        "description": "Full name of the customer."
+                    },
+                    "mobileNumber": {
+                        "type": "string",
+                        "description": "Mobile number of the customer."
+                    },
+                    "address": {
+                        "type": "string",
+                        "description": "Address of the customer."
+                    },
+                    "cityOrTown": {
+                        "type": "string",
+                        "description": "City or town of the customer."
+                    },
+                    "state": {
+                        "type": "string",
+                        "description": "State of the customer."
+                    },
+                    "addressType": {
+                        "type": "string",
+                        "enum": [
+                            "home",
+                            "office",
+                            "other"
+                        ],
+                        "description": "Type of address (home, office, or other)."
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Timestamp when the record was created. Read-only.",
+                        "readOnly": true
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Timestamp when the record was last updated. Read-only.",
+                        "readOnly": true
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "JWT": {
+                "type": "apiKey",
+                "name": "Authorization",
+                "in": "header",
+                "description": "Enter your JWT token in the format: Bearer <token>"
+            }
+        }
+    }
+}

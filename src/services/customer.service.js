@@ -22,12 +22,6 @@ export const addCustomer = async (customerData) => {
     }
 
     // If not, create a new customer    
-    const customerExists = await CustomerDetails.findOne({
-      where: { userID: customerData.userID },
-    });
-    if (customerExists) {
-      return { success: false, message: 'Customer already exists' };
-    }
     const newCustomer = await CustomerDetails.create(customerData);
 
     return { success: true, data: newCustomer };

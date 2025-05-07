@@ -22,9 +22,9 @@ router.post('/login', userController.userLogin);
 router.post('/token/refresh', userController.refreshToken);
 
 //route for forgot password
-router.post('/forget', newUserValidator,userController.userForgotPassword);
+router.post('/forget',userController.userForgotPassword);
 
 //route for reset password
-router.post('/reset', newUserValidator, userController.userResetPassword);
+router.post('/reset', userController.userResetPassword);
 
 export default router;

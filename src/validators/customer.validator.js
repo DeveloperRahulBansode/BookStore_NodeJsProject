@@ -2,8 +2,8 @@ import Joi from '@hapi/joi';
 
 export const newCustomerValidator = (req, res, next) => {
   const schema = Joi.object({
-    customerID: Joi.number().integer().positive().required(),
-    userID: Joi.number().integer().positive().required(),
+    customerID: Joi.number().integer(),
+    userID: Joi.number().integer(),
     fullName: Joi.string().min(1).required(),
     mobileNumber: Joi.string().min(3).required(),
     address: Joi.string().min(1).required(),
