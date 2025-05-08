@@ -72,7 +72,7 @@ export const placeOrder = async (userID) => {
 };
 
 //get order summary by userId with userdetails
-export const getOrdersByUserID = async (userID) => {
+export const getOrderSummary = async (userID) => {
   try {
     const orders = await OrderSummary.findAll({
       where: { userID },
