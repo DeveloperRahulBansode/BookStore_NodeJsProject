@@ -32,7 +32,7 @@ export const getOrderSummary = async (req, res, next) => {
     try {
       const userID = res.locals.user.id; // Assuming userID is stored in res.locals.user after authentication
   
-      const result = await OrderService.getOrdersByUserID(userID);
+      const result = await OrderService.getOrderSummary(userID);
   
       if (!result.success) {
         return res.status(HttpStatus.BAD_REQUEST).json({

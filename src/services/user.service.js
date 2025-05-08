@@ -154,13 +154,12 @@ export const userRefreshToken = async (token) => {
     }
 
     // Generate new tokens (access & refresh)
-    const { accessToken, refreshToken: newRefreshToken } = generateTokens({ id, role: user.role });
+    const { accessToken } = generateTokens({ id, role: user.role });
 
     // Send new tokens back
     return {
       success: true,
       accessToken,
-      refreshToken: newRefreshToken,
     };
   } catch (error) {
     console.error('Refresh token error:', error);

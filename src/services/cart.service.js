@@ -30,7 +30,7 @@ export const addBookToCart = async (userID, bookID) => {
       userID,
       bookID,
       quantity: 1,
-      price: book.price, // Assuming `price` exists in the `Book` model
+      price: book.discountPrice, // Assuming `price` exists in the `Book` model
     });
     return { success: true, data: cartItem };
 

@@ -149,13 +149,12 @@ export const adminRefreshToken = async (token) => {
       return { success: false, message: 'User not found' };
     }
 
-    const { accessToken, refreshToken: newRefreshToken } = generateTokens({ id, role: user.role });
+    const { accessToken } = generateTokens({ id, role: user.role });
 
     // Send new tokens back
     return {
       success: true,
       accessToken,
-      refreshToken: newRefreshToken,
     };
   } catch (error) {
     console.error('Refresh token error:', error);

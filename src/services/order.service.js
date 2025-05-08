@@ -71,4 +71,56 @@ export const placeOrder = async (userID) => {
   }
 };
 
+//get order summary by userId with userdetails
+export const getOrdersByUserID = async (userID) => {
+  try {
+    const orders = await OrderSummary.findAll({
+      where: { userID },
+      attributes: ['orderID','quantity', 'totalAmount', 'isPurchased', 'createdAt'],
+      include: [
+        {
+          model: Book,
+          as: 'book',
+          attributes: ['bookName', 'author', 'price', 'discountPrice']
+        },
+        {
+          model: CustomerDetails,
+          as: 'customerDetails',
+          attributes: ['fullName', 'address', 'mobileNumber', 'cityOrTown', 'state'] 
+        }
+      ]
+    });
+
+    if (!orders.length) {
+      return { success: false, message: 'No orders found for the user' };
+    }
+
+    // Format the response for better readability
+    const formattedOrders = orders.map(order => ({
+      orderID: order.orderID,
+      quantity: order.quantity,
+      totalAmount: order.totalAmount,
+      isPurchased: order.isPurchased,
+      orderDate: order.createdAt,
+      bookDetails: {
+        title: order.book.title,
+        author: order.book.author,
+        price: order.book.price,
+        discountPrice: order.book.discountPrice
+      },
+      customerDetails: {
+        fullName: order.customerDetails.fullName,
+        address: order.customerDetails.address,
+        mobileNumber: order.customerDetails.mobileNumber,
+        cityOrTown: order.customerDetails.cityOrTown,
+        state: order.customerDetails.state
+      }
+    }));
+
+    return { success: true, data: formattedOrders };
+  } catch (error) {
+    console.error('Error fetching order summary:', error);
+    return { success: false, message: 'Failed to fetch order summary' };
+  }
+};
 

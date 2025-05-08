@@ -7,5 +7,7 @@ const router = express.Router();
 
 //route to create a new order
 router.post('', userAuth, hasRole(['user']), orderController.placeOrder);
+//route to get order summary
+router.get('', userAuth, hasRole(['user']), orderController.getOrderSummary);
 
 export default router;

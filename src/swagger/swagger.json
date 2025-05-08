@@ -1016,6 +1016,38 @@
                         "JWT": []
                     }
                 ]
+            },
+            "get": {
+                "tags": [
+                    "Order"
+                ],
+                "summary": "get all Order ",
+                "responses": {
+                    "204": {
+                        "description": " get Order sucessfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User not found",
+                        "content": {}
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {}
+                    }
+                },
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "x-codegen-request-body-name": "Get Order"
             }
         }
     },

@@ -157,7 +157,7 @@ export const sortBooksByPrice = async (order = 'ASC') => {
       return { success: false, message: 'Invalid order parameter. Use "ASC" or "DESC".' };
     }
     const data = await Book.findAll({
-      order: [['price', order]],
+      order: [['discountPrice', order]],
     });
     return { success: true, data };
   } catch (error) {
